@@ -1,0 +1,76 @@
+  type Meta {
+    votes: Int,
+    favs: Int
+  }
+  type Comment {
+    _id: ID,
+    body: String
+  }
+  type Post {
+    _id: ID,
+    title: String,
+    author: String,
+    body: String,
+    comments: [Comment],
+    postedBy: ID,
+    hidden: Boolean,
+    meta: Meta
+  },
+  input CommentInput {
+    body: String,
+  }
+  input MetaInput {
+    votes: Int,
+    favs: Int
+  }
+  input AddPostInput {
+    title: String!
+    author: String!,
+    body: String,
+    comments: [CommentInput],
+    postedBy: ID,
+    hidden: Boolean,
+    meta: MetaInput
+  }
+  input UpdatePostInput {
+    # NOTE: all fields, except the 'id' (the selector), are optional for the update input 
+    _id: ID!
+    title: String!
+    author: String!,
+    body: String,
+    comments: [CommentInput],
+    postedBy: ID,
+    hidden: Boolean,
+    meta: MetaInput
+  }
+  
+  type CreateUpdateResultPost {
+    post: Post,
+    msg: Boolean
+  }
+  type RemoveResultPost {
+    success: Boolean,
+    msg: Boolean
+  }
+  input InputParams {
+    title: String,
+    author: String,
+    body: String,
+    hidden: String,
+    favs: String,
+    votes: String
+  }
+  #4 Define the query type that must respond to 'posts' query
+  type Query {
+    hello(subject: String): String,
+    posts: [Post],
+    findPosts(params: InputParams): [Post],
+    findPostById(id: ID): Post
+  },
+  #5 Define a mutation to add new posts with two required fields
+  type Mutation {
+    createPost(input: AddPostInput!): CreateUpdateResultPost,
+    putPost(input: UpdatePostInput!): CreateUpdateResultPost,
+    patchPost(input: UpdatePostInput!): CreateUpdateResultPost,
+    removePost(id: ID): RemoveResultPost
+  }

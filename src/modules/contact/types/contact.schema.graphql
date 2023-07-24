@@ -1,0 +1,49 @@
+type Contact {
+    _id: ID,
+    contact_name: String,
+    contact_address: String,
+    contact_email: String,
+    contact_phno: String,
+    contact_organization: String
+}
+input AddContactInput {
+    contact_name: String!,
+    contact_address: String!,
+    contact_email: String!,
+    contact_phno: String!,
+    contact_organization: String!
+}
+input UpdateContactInput {
+    _id: ID!
+    contact_name: String!,
+    contact_address: String!,
+    contact_email: String!,
+    contact_phno: String!,
+    contact_organization: String!
+}
+type CreateUpdateResultContact {
+    Contact: Contact,
+    msg: Boolean
+  }
+  type RemoveResultContact {
+    success: Boolean,
+    msg: Boolean
+  }
+  input InputParams {
+    contact_name: String,
+    contact_address: String,
+    contact_email: String,
+    contact_phno: String,
+    contact_organization: String,
+  }
+type Query {
+    contacts: [Contact],
+    findContacts(params: InputParams): [Contact],
+    findContactById(id: ID): Contact
+}
+type Mutation {
+    createContact(input: AddContactInput!): CreateUpdateResultContact,
+    putContact(input: UpdateContactInput!): CreateUpdateResultContact,
+    patchContact(input: UpdateContactInput!): CreateUpdateResultContact,
+    removeContact(id: ID): RemoveResultContact
+}

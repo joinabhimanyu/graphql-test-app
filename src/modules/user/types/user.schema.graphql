@@ -1,0 +1,66 @@
+type Role {
+    _id: ID,
+    context: String,
+    scope: String
+}
+type User {
+    _id: ID,
+    userid: String,
+    email: String,
+    firstname: String,
+    lastname: String,
+    address: String,
+    password: String,
+    organization: String,
+    roles: [Role]
+}
+input RoleUserInput {
+    context: String!,
+    scope: String!
+}
+input AddUserInput {
+    userid: String!,
+    email: String!,
+    firstname: String!,
+    lastname: String!,
+    address: String!,
+    password: String!,
+    organization: String!,
+    roles: [RoleUserInput!]!
+}
+input UpdateUserInput {
+    _id: String!,
+    userid: String!,
+    email: String!,
+    firstname: String!,
+    lastname: String!,
+    address: String!,
+    password: String!,
+    organization: String!,
+    roles: [RoleUserInput!]!
+}
+type CreateUpdateResultUser {
+    user: User,
+    msg: Boolean
+  }
+  type RemoveResultUser {
+    success: Boolean,
+    msg: Boolean
+  }
+  type LoginResult {
+    token: String!,
+    expiresIn: String!,
+    _id: String!,
+    userId: String!
+  }
+type Query {
+    users: [User],
+    login(userid: String, password: String): LoginResult!
+}
+
+type Mutation {
+    createUser(input: AddUserInput!): CreateUpdateResultUser,
+    putUser(input: UpdateUserInput!): CreateUpdateResultUser,
+    patchUser(input: UpdateUserInput!): CreateUpdateResultUser,
+    removeUser(id: ID): RemoveResultUser,
+}
